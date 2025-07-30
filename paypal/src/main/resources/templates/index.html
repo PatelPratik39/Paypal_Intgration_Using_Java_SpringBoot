@@ -13,9 +13,32 @@
 </head>
 <body>
 <div class="container">
-    <h1 class="text-center mt-5">PayPal Payment Integration</h1>
+    <h1 class="text-center mt-5">🧾 PayPal Payment Integration 🧾</h1>
     <form method="post" action="payment/create" class="mt-5 card p-3">
-        <div class="d-flex justify-content-center mt-2">
+        <div class="mb-3">
+            <label for="method" class="form-label">Payment Method :</label>
+            <input type="text" class="form-control" id="method" name="method" value="Paypal" readonly placeholder="Payment Method">
+        </div>
+        <div class="mb-3">
+            <label for="amount" class="form-label">Amount : </label>
+            <input type="number" class="form-control" id="amount" name="amount" value="10.00"  placeholder="Payment Amount">
+        </div>
+        <div class="mb-3">
+            <label for="currency" class="form-label">Currency : </label>
+            <select class="form-select" id="currency" name="currency">
+                <option value="USD" selected>USD</option>
+                <option value="EUR">EUR</option>
+                <option value="GBP">GBP</option>
+                <option value="CAD">CAD</option>
+                <option value="AUD">AUD</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="description" class="form-label">Description : </label>
+            <input type="text" class="form-control" id="description" name="description" value="description" placeholder="Payment description">
+        </div>
+        <div class="d-flex justify-content-center">
             <button type="submit" class="btn btn-primary">Pay with PayPal</button>
         </div>
 
