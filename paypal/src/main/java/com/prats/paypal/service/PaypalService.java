@@ -54,10 +54,18 @@ public class PaypalService {
         return payment.create(apiContext);
     }
 
+
+    //when we select paypal for pay now option then this method will invoke
     public Payment executePayment(
             String paymentId,
             String payerId
-    ){
+    ) throws PayPalRESTException {
+        Payment payment = new Payment();
+        payment.setId(paymentId);
 
+        PaymentExecution paymentExecution = new PaymentExecution();
+        paymentExecution.setPayerId(payerId);
+
+        return payment.execute(apiContext,paymentExecution);
     }
 }
