@@ -2,4 +2,5 @@
 
 # Project Demo
 
-![Demo](demo.mov)
+![Demo](demo.gif)
+
