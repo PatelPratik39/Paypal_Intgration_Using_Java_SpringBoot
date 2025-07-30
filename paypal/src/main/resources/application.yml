@@ -1,4 +1,7 @@
 spring:
   application:
     name: paypal
-
+paypal:
+  client-id: ${PAYPAL_CLIENT_ID}
+  client-secret: ${PAYPAL_SECRET_KEY}
+  mode: sandbox   # I am using #sandbox for testing and 'live' for Production
