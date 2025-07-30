@@ -14,22 +14,27 @@ import java.util.Locale;
 @RequiredArgsConstructor
 public class PaypalService {
 
-    private final APIContext  apiContext;
+    private final APIContext apiContext;
 
     public Payment createPayment(
-            Double total,
+            double total,
             String currency,
             String method,
             String intent,
             String description,
             String cancelUrl,
             String successUrl
-
     ) throws PayPalRESTException {
+
+        // Create and set amount
         Amount amount = new Amount();
         amount.setCurrency(currency);
-        amount.setTotal(String.format(Locale.forLanguageTag(currency), "$%.2f", total));
 
+        // Ensure total is formatted as "10.00" with 2 decimal places
+        String formattedTotal = String.format(Locale.US, "%.2f", total);
+        amount.setTotal(formattedTotal);
+
+        // Create transaction
         Transaction transaction = new Transaction();
         transaction.setDescription(description);
         transaction.setAmount(amount);
@@ -37,35 +42,34 @@ public class PaypalService {
         List<Transaction> transactions = new ArrayList<>();
         transactions.add(transaction);
 
+        // Payer information
         Payer payer = new Payer();
         payer.setPaymentMethod(method);
 
+        // Payment object
         Payment payment = new Payment();
         payment.setIntent(intent);
         payment.setPayer(payer);
         payment.setTransactions(transactions);
 
+        // Redirect URLs
         RedirectUrls redirectUrls = new RedirectUrls();
         redirectUrls.setCancelUrl(cancelUrl);
         redirectUrls.setReturnUrl(successUrl);
 
         payment.setRedirectUrls(redirectUrls);
 
+        // Create payment using PayPal API
         return payment.create(apiContext);
     }
 
-
-    //when we select paypal for pay now option then this method will invoke
-    public Payment executePayment(
-            String paymentId,
-            String payerId
-    ) throws PayPalRESTException {
+    public Payment executePayment(String paymentId, String payerID) throws PayPalRESTException {
         Payment payment = new Payment();
         payment.setId(paymentId);
 
         PaymentExecution paymentExecution = new PaymentExecution();
-        paymentExecution.setPayerId(payerId);
+        paymentExecution.setPayerId(payerID);
 
-        return payment.execute(apiContext,paymentExecution);
+        return payment.execute(apiContext, paymentExecution);
     }
 }

@@ -31,7 +31,7 @@ public class PaypalController {
             String successUrl = "http://localhost:8080/payment/success";
 
             Payment payment = paypalService.createPayment(
-                    10.0,
+                    10.00,
                     "USD",
                     "paypal",
                     "sale",
@@ -61,9 +61,9 @@ public class PaypalController {
     @GetMapping("/payment/success")
     public String paymentSuccess(
             @RequestParam("paymentId") String paymentId,
-            @RequestParam("payerid") String payerId) {
+            @RequestParam("PayerID") String payerID) {
         try{
-            Payment payment = paypalService.executePayment(paymentId, payerId);
+            Payment payment = paypalService.executePayment(paymentId, payerID);
             if(payment.getState().equals("approved")) {
                 return "paymentSuccess";
             }
@@ -77,5 +77,10 @@ public class PaypalController {
     @GetMapping("/payment/cancel")
     public String paymentCancel(){
         return "paymentCancel";
+    }
+
+    @GetMapping("/payment/error")
+    public String paymentError(){
+        return "paymentError";
     }
 }
